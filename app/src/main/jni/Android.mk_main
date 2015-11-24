@@ -1,0 +1,8 @@
+LOCAL_PATH := $(call my-dir)
+include $(CLEAR_VARS)
+LOCAL_MODULE := libTestJni
+LOCAL_SRC_FILES := libTestJni.so
+
+TARGET_PRELINK_MODULES := false
+include $(BUILD_SHARED_LIBRARY)
+

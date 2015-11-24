@@ -1,0 +1,13 @@
+LOCAL_PATH := $(call my-dir)
+include $(CLEAR_VARS)
+LOCAL_LDLIBS    := -lm -llog
+LOCAL_SHARED_LIBRARIES := liblog libcutil
+LOCAL_SRC_FILES := ZipPassUtil.c
+LOCAL_MODULE := libZipPass
+TARGET_PRELINK_MODULES := false
+
+#LOCAL_C_INCLUDES :=
+#LOCAL_STATIC_LIBRARIES :=
+#LOCAL_SHARED_LIBRARIES :=
+include $(BUILD_SHARED_LIBRARY)
+

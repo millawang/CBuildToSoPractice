@@ -1,0 +1,120 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion "22.0.1"
+
+    defaultConfig {
+        applicationId "com.example.millawang.myapplication"
+        minSdkVersion 15
+        targetSdkVersion 22
+        versionCode 1
+        versionName "1.0"
+//        ndk{
+//            moduleName "libTestJni"
+//        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    sourceSets.main {
+        jniLibs.srcDir 'jniLibs'
+    }
+
+//    productFlavors {
+//        x86 {
+//            ndk {
+//                abiFilter "x86"
+//            }
+//        }
+//        arm {
+//            ndk {
+//                abiFilter "armeabi-v7a"
+//            }
+//        }
+//        mips {
+//            ndk {
+//                abiFilter "mips"
+//            }
+//        }
+//    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar', '*.so'])
+    compile 'com.android.support:appcompat-v7:22.1.1'
+}
+
+task copyJniLibs1(type: Copy) {
+    from 'src/main/libs/armeabi'
+    into 'src/main/jniLibs/armeabi'
+
+}
+
+task copyJniLibs2(type: Copy) {
+    from 'src/main/libs/armeabi-v7a'
+    into 'src/main/jniLibs/armeabi-v7a'
+
+}
+
+task copyJniLibs3(type: Copy) {
+    from 'src/main/libs/arm64-v8a'
+    into 'src/main/jniLibs/arm64-v8a'
+
+}
+
+task copyJniLibs4(type: Copy) {
+    from 'src/main/libs/mips'
+    into 'src/main/jniLibs/mips'
+
+}
+
+task copyJniLibs5(type: Copy) {
+    from 'src/main/libs/mips64'
+    into 'src/main/jniLibs/mips64'
+
+}
+
+task copyJniLibs6(type: Copy) {
+    from 'src/main/libs/x86'
+    into 'src/main/jniLibs/x86'
+
+}
+
+task copyJniLibs7(type: Copy) {
+    from 'src/main/libs/x86_64'
+    into 'src/main/jniLibs/x86_64'
+
+}
+
+//task ndkLibsToJar(type: Jar, dependsOn: 'ndkBuild', description: 'Create a JAR of the native libs') {
+//    destinationDir new File(buildDir, 'libs')
+//    baseName 'ndk-libs'
+//    extension 'jar'
+//    from(new File(buildDir, 'libs')) { include '**/*.so' }
+//    into 'lib/'
+//}
+//
+//
+//task ndkBuild(type: Exec, description: 'Compile JNI source via NDK') {
+//    def ndkDir = project.plugins.findPlugin('com.android.application').sdkHandler.getNdkFolder()
+//    println(ndkDir)
+//    commandLine "$ndkDir/ndk-build",
+//            'NDK_PROJECT_PATH=build',
+//            'APP_BUILD_SCRIPT=src/main/jni/Android.mk_',
+//            'NDK_APPLICATION_MK=src/main/jni/Application.mk',
+//            '-j1'
+//}
+
+
+
+tasks.withType(JavaCompile) {
+    compileTask -> compileTask.dependsOn(copyJniLibs1, copyJniLibs2, copyJniLibs3, copyJniLibs4, copyJniLibs5, copyJniLibs6, copyJniLibs7)
+}
+
+clean.dependsOn 'cleanCopyJniLibs'
+
